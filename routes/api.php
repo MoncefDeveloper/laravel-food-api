@@ -23,6 +23,7 @@ use Illuminate\Support\Facades\Route;
 // });
 
 Route::get('/', function () {
+    // test
     return "Welcome in Qwiri API";
 });
 
