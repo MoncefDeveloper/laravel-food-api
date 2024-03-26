@@ -106,16 +106,26 @@ class MealController extends Controller
         return $this->returnData('', 'meals', $mealDetailsArray);
     }
 
-    public function searchMealsByName()
+    public function searchMealsByName(Request $request)
     {
-        $name = "chicken";
+        $name = $request->input('name');
+        if ($name === null || $name === '') {
+            return  $this->returnData('', 'meals', []);
+        }
+
         $response = Http::get('https://www.themealdb.com/api/json/v1/1/search.php?s=' . $name);
 
         if ($response->successful()) {
             $meals = $response->json()['meals'];
-            $meals = array_slice($meals, 0, 6);
 
-            $mealDetailsArray = $this->fetchMealDetailsArray($meals);
+            if ($meals === null) {
+                return  $this->returnData('', 'meals', []);
+            }
+
+            $meals = array_slice($meals, 0, 4);
+
+
+            $mealDetailsArray = $this->returnData('', 'meals', $this->fetchMealDetailsArray($meals));
 
             return $mealDetailsArray;
         } else {
