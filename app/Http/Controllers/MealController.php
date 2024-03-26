@@ -108,6 +108,7 @@ class MealController extends Controller
 
     public function searchMealsByName(Request $request)
     {
+        //test
         $name = $request->input('name');
         if ($name === null || $name === '') {
             return  $this->returnData('', 'meals', []);
